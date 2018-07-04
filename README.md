@@ -8,15 +8,37 @@ This is my second project in JavaScript.
 
 
 ISSUES:
-If you play on PC and click with mouse2 while holding down up or down arrow,
-the game will get fixed to that moveDir.
-
 There seems to be a issue with the text "fast nation food invasion" being
 a to long title to be displayed on some phones. Might need to scale that down
-a bit. 
+a bit.
+
+Some smartphone users are not able to play the game since it uses mouseIsPressed
+instead of native touchStarted() touchEnded(). This is primarily a problem
+with devices running iOS. It should be fixed in next patch.  
 
 TODO:
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        The game needs to use touch instead of mouseIsPressed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+When do we launch our first rocket?
+Is the game still a bit to slow at the start?
+
+
+
+Is the game spawning to many bombs after itemspeed is increased by X4?
+
+
+
+
+No priority at the moment:
+
+
 Option to invert controller
 
+
 Sound?
+
+
+Save highscore to browsers local storage?
