@@ -12,7 +12,7 @@ class cloud{
   }
 
   move(){
-    this.x -= 2*speedScale*levelSpeedItem;
+    this.x -= 2*speedScale*levelSpeedItem*player.rocketSpeed;
     if(this.x < -this.r*2){
         this.x = windowWidth+this.r;
         this.y = random(rectH*0.2, windowHeight-rectH-this.r);
