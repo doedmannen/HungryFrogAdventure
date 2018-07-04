@@ -1,25 +1,60 @@
 /*
 Setup for moving around in the game and the menu.
 */
+function checkMobile(){
+  if (typeof window.orientation !== 'undefined') {
+    return true;
+  }
+  return false;
+}
 
+function touchEnded(){
+  moveDir = 0;
+  return false;
+}
 
-
-function moveCheck(){
-  if(mouseY > windowHeight-rectH && mouseY < windowHeight){
-    if(mouseX < windowWidth/2 && mouseX > 0){
-
-      moveDir = +1;
-
-    } else if (mouseX > windowWidth/2 && mouseX < windowWidth){
-
-      moveDir = -1;
+function touchStarted(){
+    if(game && mouseY > windowHeight-rectH*3 && mouseY < windowHeight-rectH){
+      checkRocket();
+    }
+    if(game && mouseY < windowHeight-rectH*3){
+      if(!pause){
+        pause = true;
+        noLoop();
+      } else {
+        pause = false;
+        loop();
+      }
+    }
+    if(!game){
+      if(coin && mouseY < height-rectH &&
+        mouseY > rectH*0.2+largeText*1.2+mediumText*4.8){
+        newGame();
+      } else if(!coin && mouseY > largeText*2+mediumText*6.3){
+        newGame();
+      }
 
     }
-  }
+    if(mouseY > windowHeight-rectH && mouseY < windowHeight){
+      if(mouseX < windowWidth/2 && mouseX > 0){
+
+        moveDir = +1;
+
+      } else if (mouseX > windowWidth/2 && mouseX < windowWidth){
+
+        moveDir = -1;
+
+      }
+    }
+  return false;
 }
 
 function gameOver(){
   if(coin){
+    background(50, 90, 130);
+    image(i_explode, player.explodeX-itemScale, player.explodeY-itemScale,
+      itemScale*5, itemScale*5);
+    image(i_frogdead, player.x-player.r, player.y-player.r, player.r*2, player.r*2);
     fill(255);
     stroke(0);
     textSize(largeText);
@@ -37,32 +72,32 @@ function gameOver(){
     textPlacement += mediumText*1.2;
     text(highscore, width/2, textPlacement);
     textPlacement += (mediumText*1.2/2);
-    text("\nSTART A NEW GAME", width/2, textPlacement);
+    if(mobile){
+      text("\nSTART A NEW GAME", width/2, textPlacement);
+    }else {
+      text("\nPRESS SPACE FOR NEW GAME", width/2, textPlacement);
+    }
     textPlacement = 0;
     noLoop();
   }
 }
 
-function mouseClicked(){
-  if(game && mouseY < windowHeight-rectH*1.2){
-    if(!pause){
-      pause = true;
-      noLoop();
-    } else {
-      pause = false;
-      loop();
-    }
-  }
-  if(!game){
-    if(coin && mouseY < height-rectH &&
-      mouseY > rectH*0.2+largeText*1.2+mediumText*4.8){
-      newGame();
-    } else if(!coin && mouseY > largeText*2+mediumText*6.3){
-      newGame();
-    }
 
+function keyPressed(){
+  console.log("Key is pressed");
+  if(!game && keyCode === 32){
+    newGame();
+  } else if(game && keyCode === 32){
+    checkRocket();
   }
-  return false;               // prevent default
+}
+
+function checkRocket(){
+  if(player.rocket > 0){
+    player.rocket = 0;
+    player.rocketSpeed = 2;
+    player.rocketTimer += 1000;
+  }
 }
 
 function gameMenu(){
@@ -80,17 +115,29 @@ function gameMenu(){
   text("FAST NATION FOOD INVASION", width/2, textPlacement);
   fill(255, 75, 255);
   textPlacement += mediumText*1.5;
-  text("BURGER = 10 POINTS", width/2, textPlacement);
+  text("BURGER = 20 POINTS", width/2, textPlacement);
   textPlacement += mediumText*1.2;
   text("FRIES = 50 POINTS", width/2, textPlacement);
   textPlacement += mediumText*1.2;
-  text("SODA = 2X POINTS", width/2, textPlacement);
-  textPlacement += mediumText*1.2;
+  text("SODA = 100 POINTS", width/2, textPlacement);
+  textPlacement += smallText*1.3;
+  textSize(smallText);
+  text("ROCKETS = 2X SPEED + 5X POINTS", width/2, textPlacement);
+  textPlacement += smallText*1.2;
+  text("YOU GAIN POINTS DURING ROCKET BOOSTING", width/2, textPlacement);
+  textPlacement += smallText*1.2;
+  text("ROCKETS DO NOT STACK", width/2, textPlacement);
+  textSize(mediumText);
+  textPlacement += mediumText*1.4;
   fill(255, 50, 50);
   text("BOMBS ARE UNHEALTHY", width/2, textPlacement);
   textPlacement += (mediumText*1.2/2);
   fill(255);
-  text("\nSTART A NEW GAME", width/2, textPlacement);
+  if(mobile){
+    text("\nSTART A NEW GAME", width/2, textPlacement);
+  }else {
+    text("\nPRESS SPACE TO START", width/2, textPlacement);
+  }
   textPlacement = 0;
   noLoop();
 }
