@@ -7,3 +7,4 @@ but you have to avoid the bombs for some reason.
 This is my second project in JavaScript.
 
 
+The game can be played on http://tmp.aetmej.se/js/hungryfrogadventuretime/
